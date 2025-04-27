@@ -33,6 +33,8 @@ function startSpaceshipGame() {
   shipImg.src = "images/spaceship.jpg";
   fireSound = document.getElementById("fireSound");
   hitSound = document.getElementById("hitSound");
+  blockerHitSound = document.getElementById("blockerHitSound");
+
 
   ship = {
     x: Math.random() * (canvas.width - 40) + 20,
@@ -89,8 +91,8 @@ function startTimers() {
 
   setInterval(() => {
     if (accelerationCount < 4) {
-      enemySpeedX *= 1.3;
-      enemyBulletSpeed *= 1.3;
+      enemySpeedX += 0.5;
+      enemyBulletSpeed += 0.5;
       accelerationCount++;
     }
   }, 5000);
@@ -174,6 +176,7 @@ function update() {
         b.x < ship.x + ship.width / 2 &&
         b.y > ship.y &&
         b.y < ship.y + ship.height) {
+     blockerHitSound.play();
       lives--;
       enemyBullets.splice(i, 1);
 

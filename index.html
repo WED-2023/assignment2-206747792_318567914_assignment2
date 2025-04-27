@@ -62,18 +62,16 @@
       <button onclick="startGame()">Start Game</button>
     </div>
 
-
-    <div id="game" class="screen" style="display:none">
+    <div id="game" class="screen" style="display:none; position: relative;">
+      <button onclick="forceNewGame()" style="position: absolute; top: 10px; right: 10px; z-index: 2;">New Game</button>
       <canvas id="gameCanvas" width="1000" height="600" style="border:1px solid white;"></canvas>
     </div>
-    
-    
-    
 
     <div id="endGame" class="screen" style="display:none">
       <h2 id="endMessage"></h2>
+      <div id="history"></div>
       <button onclick="showScreen('welcome')">Back to Welcome</button>
-      <button onclick="newGame()">New Game</button>
+      <button onclick="startNewGame()">New Game</button>
     </div>
   </div>
 
@@ -89,10 +87,12 @@
     </div>
   </div>
 
-<!-- Sounds -->
-<audio id="fireSound" src="audios/cannon_fire.mp3" preload="auto"></audio>
-<audio id="hitSound" src="audios/target_hit.mp3" preload="auto"></audio>
-<audio id="blockerHitSound" src="audios/blocker_hit.mp3" preload="auto"></audio>
+  <audio id="fireSound" src="audios/cannon_fire.mp3" preload="auto"></audio>
+  <audio id="hitSound" src="audios/target_hit.mp3" preload="auto"></audio>
+  <audio id="blockerHitSound" src="audios/blocker_hit.mp3" preload="auto"></audio>
+  <audio id="backgroundMusic" src="audios/spaceSound.mp3" preload="auto" loop></audio>
+
+
   <script src="spaceships-game.js"></script>
   <script src="scripts.js"></script>
 </body>

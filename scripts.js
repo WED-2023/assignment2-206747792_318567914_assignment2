@@ -1,13 +1,26 @@
 // scripts.js
 
 // פונקציה להראות מסך מסוים ולהחביא אחרים
+
 function showScreen(screenId) {
-  const screens = document.querySelectorAll('.screen');
-  screens.forEach(screen => {
-    screen.style.display = 'none';
-  });
-  document.getElementById(screenId).style.display = 'block';
-}
+    const screens = document.querySelectorAll('.screen');
+    screens.forEach(screen => {
+      screen.style.display = 'none';
+    });
+  
+    document.getElementById(screenId).style.display = 'block';
+  
+    // אם עברנו למסך endGame, לעצור את המוזיקה!
+    if (screenId === "endGame") {
+      const bgMusic = document.getElementById("backgroundMusic");
+      if (bgMusic) {
+        bgMusic.pause();
+        bgMusic.currentTime = 0;
+        bgMusic.loop = false;
+      }
+    }
+  }
+  
 
 // פתיחת About Modal
 function openAbout() {
@@ -133,20 +146,29 @@ loginForm.addEventListener("submit", function(event) {
 let shootKey = " ";
 let gameDuration = 120;
 
+
 function chooseShootKey(event) {
-  if (document.getElementById("config").style.display !== "none") {
-    event.preventDefault();
-
-    let keyPressed = event.key;
-
-    // זיהוי רווח באופן תקני
-    if (keyPressed === " " || keyPressed === "Spacebar" || keyPressed === "Space") {
-      keyPressed = "Space"; // נגדיר קבוע "Space" במפורש
+    if (document.getElementById("config").style.display !== "none") {
+      event.preventDefault();
+  
+      let keyPressed = event.key;
+  
+      if (keyPressed === " " || keyPressed === "Spacebar" || keyPressed === "Space") {
+        document.getElementById('shootKey').value = "Space";
+        shootKey = "Space";
+      }
+      else if (/^[a-zA-Z]$/.test(keyPressed)) {
+        document.getElementById('shootKey').value = keyPressed;
+        shootKey = keyPressed;
+      }
+      else {
+        alert("Please choose only a letter (A-Z) or the Space key.");
+      }
     }
-
-    document.getElementById('shootKey').value = keyPressed;
   }
-}
+  
+  
+  
 
 function startGame() {
   const shootKeyInput = document.getElementById("shootKey").value.trim();
@@ -184,25 +206,29 @@ function saveScore(currentScore) {
 
 // הצגת היסטוריית ניקוד
 function showScoreHistory() {
-  const historyDiv = document.getElementById("history");
-  historyDiv.innerHTML = "<h3>Your Score History:</h3><ol>";
-
-  const lastScore = scoreHistory[scoreHistory.length - 1];
-
-  const sortedScores = [...scoreHistory].sort((a, b) => b - a);
-
-  let foundLatest = false;
-  for (let score of sortedScores) {
-    if (score === lastScore && !foundLatest) {
-      historyDiv.innerHTML += `<li><strong>${score} points (Latest)</strong></li>`;
-      foundLatest = true;
-    } else {
-      historyDiv.innerHTML += `<li>${score} points</li>`;
+    const historyDiv = document.getElementById("history");
+    historyDiv.innerHTML = "<h3>Your Score History:</h3><div>";
+  
+    const lastScore = scoreHistory[scoreHistory.length - 1];
+    const sortedScores = [...scoreHistory].sort((a, b) => b - a);
+  
+    let place = 1;
+    let foundLatest = false;
+  
+    for (let score of sortedScores) {
+      if (score === lastScore && !foundLatest) {
+        historyDiv.innerHTML += `<div>${place}. ${score} points (Latest)</div>`;
+        foundLatest = true;
+      } else {
+        historyDiv.innerHTML += `<div>${place}. ${score} points</div>`;
+      }
+      place++;
     }
+  
+    historyDiv.innerHTML += "</div>";
   }
-
-  historyDiv.innerHTML += "</ol>";
-}
+  
+  
 
 
 // סיום משחק
@@ -234,6 +260,30 @@ function endGame(reason) {
   }, 500);
 }
 
-function newGame() {
-  showScreen("config");
+
+function forceNewGame() {
+    manualRestart = true;
+    cancelAnimationFrame(gameAnimationFrame);
+    clearInterval(gameTimerInterval);
+    bullets = [];
+    enemyBullets = [];
+    enemies = [];
+    keys = {};
+    gameOver = false;
+    gameStarted = false;
+    score = 0;
+    lives = 3;
+    showScreen('config');
 }
+
+
+
+function startNewGame() {
+    enemySpeedX = 2;
+    enemyBulletSpeed = 5;
+    accelerationCount = 0;
+    showScreen('config');
+}
+
+
+  

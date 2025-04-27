@@ -78,6 +78,9 @@ function startSpaceshipGame() {
   startTimers();
   gameStarted = true;
   gameLoop();
+  const bgMusic = document.getElementById("backgroundMusic");
+  bgMusic.currentTime = 0;
+  bgMusic.play();
 }
 
 function startTimers() {
@@ -91,8 +94,8 @@ function startTimers() {
 
   setInterval(() => {
     if (accelerationCount < 4) {
-      enemySpeedX += 0.5;
-      enemyBulletSpeed += 0.5;
+      enemySpeedX += 1;
+      enemyBulletSpeed += 1;
       accelerationCount++;
     }
   }, 5000);
@@ -122,9 +125,11 @@ function update() {
   if (keys["ArrowRight"] && ship.x < canvas.width - ship.width) ship.x += ship.speed;
   if (keys["ArrowUp"] && ship.y > canvas.height * 0.6) ship.y -= ship.speed;
   if (keys["ArrowDown"] && ship.y < canvas.height - ship.height) ship.y += ship.speed;
-  if ((shootKey === "Space" && keys[" "]) || keys[shootKey]) {
-    shoot();
-}
+  if ((shootKey === "Space" && keys[" "]) || keys[shootKey.toLowerCase()] || keys[shootKey.toUpperCase()]) {
+  shoot();
+  }
+
+
   bullets.forEach(b => b.y -= b.speed);
   enemyBullets.forEach(b => b.y += b.speed);
 
@@ -249,11 +254,21 @@ function endGame(reason) {
   cancelAnimationFrame(gameAnimationFrame);
   clearInterval(gameTimerInterval);
 
+  // עצירה מיידית של מוזיקה
+  const bgMusic = document.getElementById("backgroundMusic");
+  if (bgMusic) {
+    bgMusic.pause();
+    bgMusic.currentTime = 0;
+    bgMusic.loop = false;
+  }
+
   setTimeout(() => {
     saveScore(score);
     showScreen("endGame");
+
     const endMessage = document.getElementById("endMessage");
     let message = "";
+
     if (reason === "Lost") {
       message = "You Lost!";
     } else if (reason === "Won") {
@@ -263,7 +278,11 @@ function endGame(reason) {
     } else {
       message = "Game Over!";
     }
+    
     endMessage.innerHTML = `<h2>${message}</h2>`;
     showScoreHistory();
   }, 500);
 }
+
+
+

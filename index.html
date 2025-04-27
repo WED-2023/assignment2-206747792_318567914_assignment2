@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spaceship Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Spaceship Game</h1>
+    <img src="images/logo.png" alt="Logo" id="logo">
+  </header>
+
+  <nav>
+    <button onclick="showScreen('welcome')">Welcome</button>
+    <button onclick="showScreen('register')">Register</button>
+    <button onclick="showScreen('login')">Login</button>
+    <button onclick="openAbout()">About</button>
+  </nav>
+
+  <div id="content">
+    <div id="welcome" class="screen">
+      <h2>Welcome!</h2>
+      <p>Student IDs: 206747792, 318567914</p>
+      <button onclick="showScreen('register')">Register</button>
+      <button onclick="showScreen('login')">Login</button>
+    </div>
+
+    <div id="register" class="screen" style="display:none">
+      <h2>Register</h2>
+      <form id="registerForm">
+        <input type="text" id="username" placeholder="Username" required><br>
+        <input type="password" id="password" placeholder="Password" required><br>
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" required><br>
+        <input type="text" id="firstName" placeholder="First Name" required><br>
+        <input type="text" id="lastName" placeholder="Last Name" required><br>
+        <input type="email" id="email" placeholder="Email" required><br>
+        <label>Birthday:</label>
+        <select id="birthYear"></select>
+        <select id="birthMonth"></select>
+        <select id="birthDay"></select><br>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+    <div id="login" class="screen" style="display:none">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <input type="text" id="loginUsername" placeholder="Username" required><br>
+        <input type="password" id="loginPassword" placeholder="Password" required><br>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+
+    <div id="config" class="screen" style="display:none">
+      <h2>Configuration</h2>
+      <label>Select shoot key:</label>
+      <input type="text" id="shootKey" placeholder="Press a key" onkeydown="chooseShootKey(event)" readonly><br>
+      <label>Game Time (minutes, min 2):</label>
+      <input type="number" id="gameTime" min="2" value="2"><br>
+      <button onclick="startGame()">Start Game</button>
+    </div>
+
+
+    <div id="game" class="screen" style="display:none">
+      <canvas id="gameCanvas" width="1000" height="600" style="border:1px solid white;"></canvas>
+    </div>
+    
+    
+    
+
+    <div id="endGame" class="screen" style="display:none">
+      <h2 id="endMessage"></h2>
+      <button onclick="showScreen('welcome')">Back to Welcome</button>
+      <button onclick="newGame()">New Game</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>Contact us: example@email.com</p>
+  </footer>
+
+  <div id="aboutModal" class="modal" style="display:none">
+    <div class="modal-content">
+      <span class="close" onclick="closeAbout()">&times;</span>
+      <h2>About</h2>
+      <p>Developed by 206747792 & 318567914.<br>Using pure HTML, CSS, JS.<br>Faced challenges: Game mechanics, timing control, shooting collisions.</p>
+    </div>
+  </div>
+
+  <script src="spaceships-game.js"></script>
+  <script src="scripts.js"></script>
+</body>
+</html>

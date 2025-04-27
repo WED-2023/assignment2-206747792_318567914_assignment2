@@ -87,7 +87,7 @@ body {
   
   #welcome {
     background-image: url('images/mainScreen.png');
-    background-size: contain; /* לא cover */
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
     min-height: calc(100vh - 100px);

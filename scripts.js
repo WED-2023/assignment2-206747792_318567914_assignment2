@@ -1,8 +1,12 @@
 // scripts.js
 
 // פונקציה להראות מסך מסוים ולהחביא אחרים
-
 function showScreen(screenId) {
+    // אם במשחק ורוצים לעבור למסך אחר חוץ מ-about
+    if (gameStarted && screenId !== "about" && screenId !== "endGame") {
+      silentEndGame();
+    }
+  
     const screens = document.querySelectorAll('.screen');
     screens.forEach(screen => {
       screen.style.display = 'none';
@@ -10,7 +14,6 @@ function showScreen(screenId) {
   
     document.getElementById(screenId).style.display = 'block';
   
-    // אם עברנו למסך endGame, לעצור את המוזיקה!
     if (screenId === "endGame") {
       const bgMusic = document.getElementById("backgroundMusic");
       if (bgMusic) {
@@ -20,6 +23,9 @@ function showScreen(screenId) {
       }
     }
   }
+  
+  
+
   
 
 // פתיחת About Modal
@@ -231,34 +237,42 @@ function showScoreHistory() {
   
 
 
-// סיום משחק
-function endGame(reason) {
-  gameOver = true;
-  clearInterval(gameTimerInterval);
+  function endGame(reason, saveScoreFlag = true) {
+    gameOver = true;
+    cancelAnimationFrame(gameAnimationFrame);
+    clearInterval(gameTimerInterval);
 
-  setTimeout(() => {
-      saveScore(score);
-      showScreen("endGame");
+    const bgMusic = document.getElementById("backgroundMusic");
+    if (bgMusic) {
+        bgMusic.pause();
+        bgMusic.currentTime = 0;
+        bgMusic.loop = false;
+    }
 
-      const endMessage = document.getElementById("endMessage");
+    setTimeout(() => {
+        if (saveScoreFlag) {
+            saveScore(score);
+        }
+        showScreen("endGame");
 
-      let message = "";
-      if (reason === "Lost") {
-          message = "You Lost!";
-      } else if (reason === "Won") {
-          message = "Champion!";
-      } else if (reason === "Time Over") {
-          message = score < 100 ? "You can do better!" : "Winner!";
-      } else {
-          message = "Game Over!";
-      }
+        const endMessage = document.getElementById("endMessage");
+        let message = "";
 
-      // הכנה מראש של כל התוכן
-      endMessage.innerHTML = `<h2>${message}</h2><div id="history"></div>`;
+        if (reason === "Lost") {
+            message = "You Lost!";
+        } else if (reason === "Won") {
+            message = "Champion!";
+        } else if (reason === "Time Over") {
+            message = score < 100 ? "You can do better!" : "Winner!";
+        } else {
+            message = "Game Over!";
+        }
 
-      showScoreHistory();
-  }, 500);
+        endMessage.innerHTML = `<h2>${message}</h2>`;
+        showScoreHistory();
+    }, 500);
 }
+
 
 
 function forceNewGame() {
@@ -292,6 +306,22 @@ function startNewGame() {
     accelerationCount = 0;
     showScreen('config');
 }
+
+function silentEndGame() {
+    gameOver = true;
+    cancelAnimationFrame(gameAnimationFrame);
+    clearInterval(gameTimerInterval);
+  
+    const bgMusic = document.getElementById("backgroundMusic");
+    if (bgMusic) {
+      bgMusic.pause();
+      bgMusic.currentTime = 0;
+      bgMusic.loop = false;
+    }
+  
+    gameStarted = false;
+  }
+  
 
 
   

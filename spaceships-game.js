@@ -122,7 +122,7 @@ function update() {
   if (keys["ArrowDown"] && ship.y < canvas.height - ship.height) ship.y += ship.speed;
   if ((shootKey === "Space" && keys[" "]) || keys[shootKey]) {
     shoot();
-  }
+}
   bullets.forEach(b => b.y -= b.speed);
   enemyBullets.forEach(b => b.y += b.speed);
 

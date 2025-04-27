@@ -8,98 +8,105 @@
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
+
+<nav>
   <header>
     <h1>Spaceship Game</h1>
-    <img src="images/logo.png" alt="Logo" id="logo">
   </header>
-
-  <nav>
+  <div>
     <button onclick="showScreen('welcome')">Welcome</button>
     <button onclick="showScreen('register')">Register</button>
     <button onclick="showScreen('login')">Login</button>
     <button onclick="openAbout()">About</button>
-  </nav>
+  </div>
+</nav>
 
-  <div id="content">
-    <div id="welcome" class="screen">
-      <h2>Welcome!</h2>
-      <p>Student IDs: 206747792, 318567914</p>
-      <button onclick="showScreen('register')">Register</button>
-      <button onclick="showScreen('login')">Login</button>
-    </div>
-
-    <div id="register" class="screen" style="display:none">
-      <h2>Register</h2>
-      <form id="registerForm">
-        <input type="text" id="username" placeholder="Username" required><br>
-        <input type="password" id="password" placeholder="Password" required><br>
-        <input type="password" id="confirmPassword" placeholder="Confirm Password" required><br>
-        <input type="text" id="firstName" placeholder="First Name" required><br>
-        <input type="text" id="lastName" placeholder="Last Name" required><br>
-        <input type="email" id="email" placeholder="Email" required><br>
-        <label>Birthday:</label>
-        <select id="birthYear"></select>
-        <select id="birthMonth"></select>
-        <select id="birthDay"></select><br>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-
-    <div id="login" class="screen" style="display:none">
-      <h2>Login</h2>
-      <form id="loginForm">
-        <input type="text" id="loginUsername" placeholder="Username" required><br>
-        <input type="password" id="loginPassword" placeholder="Password" required><br>
-        <button type="submit">Login</button>
-      </form>
-    </div>
-
-    <div id="config" class="screen" style="display:none">
-      <h2>Configuration</h2>
-      <label>Select shoot key:</label>
-      <input type="text" id="shootKey" placeholder="Press a key" onkeydown="chooseShootKey(event)" readonly><br>
-      <label>Game Time (minutes, min 2):</label>
-      <input type="number" id="gameTime" min="2" value="2"><br>
-      <button onclick="startGame()">Start Game</button>
-    </div>
-
-    <div id="game" class="screen" style="display:none; position: relative;">
-      <button onclick="forceNewGame()" style="position: absolute; top: 10px; right: 10px; z-index: 2;">New Game</button>
-      <div style="display: flex; justify-content: center;">
-        <canvas id="gameCanvas" width="1200" height="650" style="border:1px solid white;"></canvas>
-      </div>
-    
-
-
-    </div>
-
-    <div id="endGame" class="screen" style="display:none">
-      <h2 id="endMessage"></h2>
-      <div id="history"></div>
-      <button onclick="showScreen('welcome')">Back to Welcome</button>
-      <button onclick="startNewGame()">New Game</button>
-    </div>
+<div id="content">
+  <div id="welcome" class="screen">
+    <h2>Student IDs: 206747792, 318567914</h2>
+    <button class="main-btn" onclick="showScreen('register')">Register</button>
+    <button class="main-btn" onclick="showScreen('login')">Login</button>
   </div>
 
-  <footer>
-    <p>Contact us: example@email.com</p>
-  </footer>
-
-  <div id="aboutModal" class="modal" style="display:none">
-    <div class="modal-content">
-      <span class="close" onclick="closeAbout()">&times;</span>
-      <h2>About</h2>
-      <p>Developed by 206747792 & 318567914.<br>Using pure HTML, CSS, JS.<br>Faced challenges: Game mechanics, timing control, shooting collisions.</p>
-    </div>
+  <div id="register" class="screen" style="display:none">
+    <h2>Register</h2>
+    <form id="registerForm">
+      <input type="text" id="username" placeholder="Username" required><br>
+      <input type="password" id="password" placeholder="Password" required><br>
+      <input type="password" id="confirmPassword" placeholder="Confirm Password" required><br>
+      <input type="text" id="firstName" placeholder="First Name" required><br>
+      <input type="text" id="lastName" placeholder="Last Name" required><br>
+      <input type="email" id="email" placeholder="Email" required><br>
+      <label>Birthday:</label>
+      <select id="birthYear"></select>
+      <select id="birthMonth"></select>
+      <select id="birthDay"></select><br>
+      <button type="submit" class="main-btn">Submit</button>
+    </form>
   </div>
 
-  <audio id="fireSound" src="audios/cannon_fire.mp3" preload="auto"></audio>
-  <audio id="hitSound" src="audios/target_hit.mp3" preload="auto"></audio>
-  <audio id="blockerHitSound" src="audios/blocker_hit.mp3" preload="auto"></audio>
-  <audio id="backgroundMusic" src="audios/spaceSound.mp3" preload="auto" loop></audio>
+  <div id="login" class="screen" style="display:none">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <input type="text" id="loginUsername" placeholder="Username" required><br>
+      <input type="password" id="loginPassword" placeholder="Password" required><br>
+      <button type="submit" class="main-btn">Login</button>
+    </form>
+  </div>
 
+  <div id="config" class="screen" style="display:none">
+    <h2>Configuration</h2>
+    <label>Select shoot key:</label>
+    <input type="text" id="shootKey" placeholder="Press a key" onkeydown="chooseShootKey(event)" readonly><br>
+    <label>Game Time (minutes, min 2):</label>
+    <input type="number" id="gameTime" min="2" value="2"><br>
+    <button onclick="startGame()" class="main-btn">Start Game</button>
+  </div>
 
-  <script src="spaceships-game.js"></script>
-  <script src="scripts.js"></script>
+  <div id="game" class="screen" style="display:none; position: relative;">
+
+    <video id="backgroundVideo" autoplay muted loop style="position: absolute; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
+      <source src="images/video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  
+    <button onclick="forceNewGame()" class="game-button" style="position: absolute; top: 10px; right: 10px; z-index: 2;">New Game</button>
+  
+    <div style="display: flex; justify-content: center; position: relative; z-index: 1;">
+      <canvas id="gameCanvas" width="1200" height="650" style="border:1px solid white;"></canvas>
+    </div>
+  
+  </div>
+  
+
+  <div id="endGame" class="screen" style="display:none">
+    <h2 id="endMessage"></h2>
+    <div id="history"></div>
+    <button class="main-btn" onclick="showScreen('welcome')">Back to Welcome</button>
+    <button class="main-btn" onclick="startNewGame()">New Game</button>
+  </div>
+</div>
+
+<footer>
+  <a href="https://wed-2023.github.io/assignment2-206747792_318567914_assignment2/" target="_blank">
+    https://wed-2023.github.io/assignment2-206747792_318567914_assignment2/
+  </a>
+</footer>
+
+<div id="aboutModal" class="modal" style="display:none">
+  <div class="modal-content">
+    <span class="close" onclick="closeAbout()">&times;</span>
+    <h2>About</h2>
+    <p>Developed by 206747792 & 318567914.<br>Using pure HTML, CSS, JS.<br>Faced challenges: Game mechanics, timing control, shooting collisions.</p>
+  </div>
+</div>
+
+<audio id="fireSound" src="audios/cannon_fire.mp3" preload="auto"></audio>
+<audio id="hitSound" src="audios/target_hit.mp3" preload="auto"></audio>
+<audio id="blockerHitSound" src="audios/blocker_hit.mp3" preload="auto"></audio>
+<audio id="backgroundMusic" src="audios/spaceSound.mp3" preload="auto" loop></audio>
+
+<script src="spaceships-game.js"></script>
+<script src="scripts.js"></script>
 </body>
 </html>

@@ -4,6 +4,7 @@ body {
     background-color: #121212;
     color: white;
     text-align: center;
+    height: 80vh;
   }
   
   header {
@@ -51,6 +52,7 @@ body {
     display: block;
     margin: 20px auto;
     border: 2px solid white;
+    height: 100%;
   }
   
   .modal {

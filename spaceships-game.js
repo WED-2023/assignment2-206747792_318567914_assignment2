@@ -23,6 +23,10 @@ let gameTimerInterval;
 let enemyShootInterval;
 let initialShipX;
 let initialShipY;
+let monsterImg;
+let backgroundImg;
+
+
 
 
 function startSpaceshipGame() {
@@ -30,7 +34,11 @@ function startSpaceshipGame() {
   ctx = canvas.getContext("2d");
 
   shipImg = new Image();
-  shipImg.src = "images/spaceship.jpg";
+  shipImg.src = "images/spaceship.png";
+  monsterImg = new Image();
+  monsterImg.src = "images/monster.png";
+  backgroundImg = new Image();
+  backgroundImg.src = "images/backGround.png";
   fireSound = document.getElementById("fireSound");
   hitSound = document.getElementById("hitSound");
   blockerHitSound = document.getElementById("blockerHitSound");
@@ -202,8 +210,7 @@ function update() {
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  ctx.fillStyle = "#000";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
 
   ctx.drawImage(shipImg, ship.x - ship.width / 2, ship.y, ship.width, ship.height);
 
@@ -214,11 +221,8 @@ function draw() {
     ctx.fill();
   });
 
-  ctx.fillStyle = "red";
   enemies.forEach(e => {
-    ctx.beginPath();
-    ctx.arc(e.x, e.y, e.radius, 0, 2 * Math.PI);
-    ctx.fill();
+    ctx.drawImage(monsterImg, e.x - e.radius, e.y - e.radius, e.radius * 2, e.radius * 2);
   });
 
   ctx.fillStyle = "yellow";
@@ -234,6 +238,8 @@ function draw() {
   ctx.fillText("Lives: " + lives, 150, 30);
   ctx.fillText("Time: " + formatTime(gameDurationLeft), 300, 30);
 }
+
+
 
 function formatTime(seconds) {
   const min = Math.floor(seconds / 60);

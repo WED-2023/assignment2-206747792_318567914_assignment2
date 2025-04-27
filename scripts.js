@@ -273,8 +273,16 @@ function forceNewGame() {
     gameStarted = false;
     score = 0;
     lives = 3;
+    const bgMusic = document.getElementById("backgroundMusic");
+    if (bgMusic) {
+      bgMusic.pause();
+      bgMusic.currentTime = 0;
+      bgMusic.loop = false;
+    }
+
     showScreen('config');
 }
+
 
 
 

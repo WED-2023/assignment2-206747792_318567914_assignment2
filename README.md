@@ -1,6 +1,9 @@
 Project Details:
 Game Name: Spaceship Adventure
 
+githun.io:
+https://wed-2023.github.io/assignment2-206747792_318567914_assignment2/
+
 General Description:
 A space shooting game where the player controls a spaceship, shoots enemies, and avoids getting hit.
 The goal is to score as many points as possible and survive for the duration of the game.
